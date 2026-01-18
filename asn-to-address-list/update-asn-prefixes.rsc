@@ -60,11 +60,11 @@
 # Read and process
 :do {
     :local content [/file get $tempFile contents]
-    :log info ("[DEBUG] Content length: " . [:len $content])
+#    :log info ("[DEBUG] Content length: " . [:len $content])
 
     # --- Parse lines manually ---
-    :log info "[DEBUG] Starting manual line parsing"
-    :log info ("[DEBUG] First 100 chars: " . [:pick $content 0 100])
+#    :log info "[DEBUG] Starting manual line parsing"
+#    :log info ("[DEBUG] First 100 chars: " . [:pick $content 0 100])
     
     :local lines [:toarray ""]
     :local currentLine ""
