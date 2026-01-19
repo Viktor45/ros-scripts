@@ -370,8 +370,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📞 Support
 
-- **Issues**: Report bugs via GitHub Issues
-- **Discussions**: Join the discussion in GitHub Discussions
+- **Issues**: [GitHub Issues](https://github.com/viktor45/ros-scripts/issues)
 - **MikroTik Forum**: [forum.mikrotik.com](https://forum.mikrotik.com)
 - **IPv6 Resources**: [ipv6.he.net](https://ipv6.he.net) for IPv6 learning
 

@@ -419,7 +419,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - **Issues**: [GitHub Issues](https://github.com/viktor45/ros-scripts/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/viktor45/ros-scripts/discussions)
 - **MikroTik Forum**: [forum.mikrotik.com](https://forum.mikrotik.com)
 
 ---
