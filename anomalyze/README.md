@@ -2,8 +2,8 @@
 
 [![MikroTik](https://img.shields.io/badge/MikroTik-RouterOS%207.20+-blue.svg)](https://mikrotik.com)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/yourusername/mikrotik-connection-monitor/graphs/commit-activity)
-[![Status](https://img.shields.io/badge/status-experimental-orange.svg)](https://github.com/yourusername/mikrotik-connection-monitor)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/viktor45/mikrotik-connection-monitor/graphs/commit-activity)
+[![Status](https://img.shields.io/badge/status-experimental-orange.svg)](https://github.com/viktor45/mikrotik-connection-monitor)
 
 A robust, configurable MikroTik RouterOS script that automatically detects and blocks suspicious network connections based on asymmetric packet patterns. Perfect for mitigating port scans, TLS handshake timeouts, and other network anomalies.
 
@@ -418,8 +418,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/mikrotik-connection-monitor/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/mikrotik-connection-monitor/discussions)
+- **Issues**: [GitHub Issues](https://github.com/viktor45/mikrotik-connection-monitor/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/viktor45/mikrotik-connection-monitor/discussions)
 - **MikroTik Forum**: [forum.mikrotik.com](https://forum.mikrotik.com)
 
 ---
