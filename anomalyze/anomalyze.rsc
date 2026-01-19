@@ -11,13 +11,13 @@
 :global cfgMonitoredPorts {443; 80; 8443}
 :global cfgProtocols {"tcp"; "udp"}
 :global cfgMinOrigPackets 3
-:global cfgMaxReplPackets 2
+:global cfgMaxReplPackets 3
 :global cfgBlockTimeout "1d"
 :global cfgLoopDelay 2
 :global cfgAddressList "tls_block"
 :global cfgAllowlistName "allowlist"
 :global cfgLogLevel "warning"
-:global cfgRemoveTCPConn true
+:global cfgRemoveTCPConn false
 :global cfgCheckLocalAddr true
 :global cfgMaxConnPerCycle 50
 
@@ -88,7 +88,7 @@
         :if ([:len $queryFilter] > 1) do={:set queryFilter ($queryFilter . " or ")}
         :set queryFilter ($queryFilter . "protocol=\"$proto\"")
     }
-    :set queryFilter ($queryFilter . ") and orig-packets>$cfgMinOrigPackets and repl-packets<=$cfgMaxReplPackets")
+    :set queryFilter ($queryFilter . ") and orig-packets>$cfgMinOrigPackets and repl-packets<$cfgMaxReplPackets")
     
     :set ($logMsg "debug" "[$scriptName] Query: $queryFilter" $cfgLogLevel)
     
