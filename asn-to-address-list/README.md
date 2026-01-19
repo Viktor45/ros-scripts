@@ -38,7 +38,7 @@ A robust RouterOS script that automatically fetches and updates firewall address
    
    ```routeros
    # Create a tmpfs RAM disk (substitute with your available RAM size)
-   /disk add slot=tmpfs type=tmpfs tmpfs-max-size=50M
+   /disk add slot=tmpfs type=tmpfs tmpfs-max-size=10M
    
    # Verify it was created
    /disk print
@@ -238,11 +238,42 @@ update-asn-prefixes: SUCCESS - Added 777 v4 prefixes for ASN AS13335
 ### Temp File Permission Issues
 
 - **Change storage location**: Use `UAPTMPPATH` to point to a writable location
-- **Use RAM disk**: Create tmpfs for reliable temporary storage: `/disk add slot=tmpfs type=tmpfs tmpfs-max-size=50M`
+- **Use RAM disk**: Create tmpfs for reliable temporary storage: `/disk add slot=tmpfs type=tmpfs tmpfs-max-size=10M`
 - **Create directory**: `/file print` to verify the path exists
 - **Check disk space**: Ensure sufficient space is available on your storage device
 
-## Advanced Usage
+## Advanced Configuration
+
+### Using RAM Disk (tmpfs) for Better Performance
+
+For routers with sufficient RAM, using tmpfs provides faster file operations and reduces wear on physical storage:
+
+```routeros
+# Create tmpfs with appropriate size (adjust based on your needs)
+# 10MB is usually enough for multiple ASN lists
+/disk add slot=tmpfs type=tmpfs tmpfs-max-size=10M
+
+# Verify creation
+/disk print
+
+# Set as default temp path
+:global UAPTMPPATH "tmpfs1/"
+
+# Now run your updates as usual
+:global UAPASN "13335"
+:global UAPLIST "cloudflare-v4"
+/system script run update-asn-prefixes
+```
+
+**Advantages:**
+- ✅ Faster read/write operations
+- ✅ No wear on USB/disk storage
+- ✅ Automatic cleanup on reboot
+- ✅ Suitable for frequent scheduled updates
+
+**Disadvantages:**
+- ❌ Uses router RAM (ensure sufficient free memory)
+- ❌ Contents lost on reboot (not an issue for temporary files)
 
 ### Multiple ASNs in One List
 
