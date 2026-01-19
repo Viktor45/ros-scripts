@@ -23,9 +23,36 @@ A robust RouterOS script that automatically fetches and updates firewall address
    - Name: `update-asn-prefixes`
    - Copy the entire script content from `update-asn-prefixes.rsc`
 
-2. **Set up global variables** (see Configuration below)
+2. **Set up temporary storage** (choose one option):
 
-3. **Run manually or schedule** (see Usage below)
+   **Option A: Use USB/Disk storage (recommended for scheduled updates)**
+   ```routeros
+   # Verify your USB/disk is mounted
+   /file print
+   # Look for usb1, disk1, etc.
+   ```
+
+   **Option B: Use RAM disk (tmpfs) for temporary files**
+   
+   RAM disk is faster and reduces wear on USB/disk storage, perfect for frequent updates:
+   
+   ```routeros
+   # Create a tmpfs RAM disk (substitute with your available RAM size)
+   /disk add slot=tmpfs type=tmpfs tmpfs-max-size=50M
+   
+   # Verify it was created
+   /disk print
+   
+   # The tmpfs disk will appear as "tmpfs1"
+   # Use it in your script configuration:
+   :global UAPTMPPATH "tmpfs1/"
+   ```
+   
+   **Note:** RAM disk contents are lost on reboot, but temporary files are cleaned up automatically by the script.
+
+3. **Set up global variables** (see Configuration below)
+
+4. **Run manually or schedule** (see Usage below)
 
 ## Configuration
 
@@ -59,10 +86,19 @@ The script uses global variables for configuration:
 
 ### Custom Storage Path
 
+**Using disk storage:**
 ```routeros
 :global UAPASN "15169"
 :global UAPLIST "google-ips"
 :global UAPTMPPATH "disk1/temp/"
+/system script run update-asn-prefixes
+```
+
+**Using RAM disk (tmpfs):**
+```routeros
+:global UAPASN "15169"
+:global UAPLIST "google-ips"
+:global UAPTMPPATH "tmpfs1/"
 /system script run update-asn-prefixes
 ```
 
@@ -202,9 +238,11 @@ update-asn-prefixes: SUCCESS - Added 777 v4 prefixes for ASN AS13335
 ### Temp File Permission Issues
 
 - **Change storage location**: Use `UAPTMPPATH` to point to a writable location
+- **Use RAM disk**: Create tmpfs for reliable temporary storage: `/disk add slot=tmpfs type=tmpfs tmpfs-max-size=50M`
 - **Create directory**: `/file print` to verify the path exists
+- **Check disk space**: Ensure sufficient space is available on your storage device
 
-## Advanced Configuration
+## Advanced Usage
 
 ### Multiple ASNs in One List
 
