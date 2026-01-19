@@ -100,7 +100,7 @@ Update Cloudflare IPs daily at 3 AM:
 :global UAPLIST "blocked-asn"
 /system script run update-asn-prefixes
 
-# Add firewall rule
+# Add firewall rule to block
 /ip firewall filter add \
     chain=input \
     src-address-list=blocked-asn \
@@ -108,19 +108,20 @@ Update Cloudflare IPs daily at 3 AM:
     comment="Block ASN 12345"
 ```
 
-### Route Traffic via Specific Gateway
+### Allow Only Specific ASN Traffic
 
 ```routeros
 # Update the list
 :global UAPASN "13335"
-:global UAPLIST "cloudflare-route"
+:global UAPLIST "allowed-asn"
 /system script run update-asn-prefixes
 
-# Add routing rule
-/ip route add \
-    dst-address-list=cloudflare-route \
-    gateway=192.168.1.1 \
-    comment="Route Cloudflare via Gateway"
+# Add firewall rule to accept
+/ip firewall filter add \
+    chain=forward \
+    src-address-list=allowed-asn \
+    action=accept \
+    comment="Allow ASN 13335"
 ```
 
 ### Monitor Traffic to CDN Networks
@@ -131,8 +132,37 @@ Update Cloudflare IPs daily at 3 AM:
 :global UAPASN "16509"; :global UAPLIST "cdn-amazon"; /system script run update-asn-prefixes
 :global UAPASN "15169"; :global UAPLIST "cdn-google"; /system script run update-asn-prefixes
 
-# Add accounting rules
-/ip firewall mangle add chain=forward dst-address-list=cdn-cloudflare action=mark-connection new-connection-mark=cdn-traffic
+# Add mangle rules for traffic marking
+/ip firewall mangle add \
+    chain=forward \
+    dst-address-list=cdn-cloudflare \
+    action=mark-connection \
+    new-connection-mark=cdn-traffic \
+    comment="Mark CDN traffic"
+```
+
+### Prioritize Traffic for Specific Networks
+
+```routeros
+# Update the list
+:global UAPASN "13335"
+:global UAPLIST "priority-network"
+/system script run update-asn-prefixes
+
+# Mark packets for QoS
+/ip firewall mangle add \
+    chain=forward \
+    dst-address-list=priority-network \
+    action=mark-packet \
+    new-packet-mark=priority \
+    comment="Priority traffic to ASN 13335"
+
+# Apply queue with priority
+/queue simple add \
+    name=priority-queue \
+    packet-marks=priority \
+    priority=1/1 \
+    comment="Priority queue for marked traffic"
 ```
 
 ## Popular ASN Numbers
