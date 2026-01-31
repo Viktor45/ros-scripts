@@ -428,7 +428,6 @@ Yes! See [CHANGELOG.md](CHANGELOG.md) for version history.
 Can't find your answer? 
 
 🐛 [Report an Issue](https://github.com/viktor45/ros-scripts/issues/new)  
-📧 [Contact Maintainers](mailto:support@example.com)
 
 ---
 
