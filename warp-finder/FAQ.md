@@ -118,12 +118,12 @@ Yes! Recommended schedule:
 ```routeros
 # Every 6 hours
 /system scheduler add name="warp-finder" interval=6h \
-  on-event="/import warp-finder-improved.rsc"
+  on-event="/import warp-finder.rsc"
 
 # Daily at 3 AM
 /system scheduler add name="warp-finder-nightly" \
   start-time=03:00:00 interval=1d \
-  on-event="/import warp-finder-improved.rsc"
+  on-event="/import warp-finder.rsc"
 ```
 
 ### Should I run this constantly?

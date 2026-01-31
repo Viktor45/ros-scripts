@@ -138,11 +138,11 @@ Create a test configuration file:
 3. **Test on RouterOS**
    ```bash
    # Upload to test router
-   scp warp-finder-improved.rsc admin@test-router:/
+   scp warp-finder.rsc admin@test-router:/
    
    # SSH and import
    ssh admin@test-router
-   /import warp-finder-improved.rsc
+   /import warp-finder.rsc
    ```
 
 4. **Commit Changes**
@@ -280,7 +280,7 @@ Before submitting a pull request, test:
    ```routeros
    # Run script with DEBUG=1
    :global DEBUG 1
-   /import warp-finder-improved.rsc
+   /import warp-finder.rsc
    ```
 
 2. **Error Conditions**
@@ -317,7 +317,7 @@ Before submitting a pull request, test:
 ```routeros
 # Measure execution time
 :local startTime [/system clock get time]
-/import warp-finder-improved.rsc
+/import warp-finder.rsc
 :local endTime [/system clock get time]
 :log info "Execution time: $startTime to $endTime"
 ```
@@ -454,7 +454,7 @@ Any other relevant information
 :global DEBUG 1
 
 # Run script
-/import warp-finder-improved.rsc
+/import warp-finder.rsc
 
 # Export logs
 /log print where topics~"script"

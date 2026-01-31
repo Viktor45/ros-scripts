@@ -16,7 +16,7 @@ Get your WireGuard endpoint finder up and running in 5 minutes!
 
 **Option A: Direct Download**
 ```bash
-wget https://raw.githubusercontent.com/yourusername/mikrotik-warp-finder/main/warp-finder-improved.rsc
+wget https://raw.githubusercontent.com/yourusername/mikrotik-warp-finder/main/warp-finder.rsc
 ```
 
 **Option B: Clone Repository**
@@ -28,14 +28,14 @@ git clone https://github.com/viktor45/ros-scripts/warp-finder.git
 
 **Via SCP (Recommended):**
 ```bash
-scp warp-finder-improved.rsc admin@192.168.88.1:/
+scp warp-finder.rsc admin@192.168.88.1:/
 ```
 
 **Via WebFig:**
 1. Open http://192.168.88.1
 2. Go to **Files**
 3. Click **Upload**
-4. Select `warp-finder-improved.rsc`
+4. Select `warp-finder.rsc`
 
 ### Step 3: Configure Interface Name (30 seconds)
 
@@ -55,12 +55,12 @@ Edit the script (line 14):
 **Via SSH:**
 ```bash
 ssh admin@192.168.88.1
-/import warp-finder-improved.rsc
+/import warp-finder.rsc
 ```
 
 **Via WinBox:**
 1. Open **New Terminal**
-2. Type: `/import warp-finder-improved.rsc`
+2. Type: `/import warp-finder.rsc`
 3. Press **Enter**
 
 ### Step 5: Verify Success (1 minute)
@@ -87,14 +87,14 @@ Your WireGuard connection is now using an optimized endpoint.
 Run every 6 hours:
 ```routeros
 /system scheduler add name="warp-finder" interval=6h \
-  on-event="/import warp-finder-improved.rsc"
+  on-event="/import warp-finder.rsc"
 ```
 
 ### Run on Connection Failure
 
 ```routeros
 /tool netwatch add host=1.1.1.1 interval=30s \
-  down-script="/import warp-finder-improved.rsc"
+  down-script="/import warp-finder.rsc"
 ```
 
 ---
@@ -135,7 +135,7 @@ Run every 6 hours:
 /ping 1.1.1.1 count=5 interface=wgcf
 
 # Re-run script
-/import warp-finder-improved.rsc
+/import warp-finder.rsc
 ```
 
 ---
