@@ -16,7 +16,7 @@ Get your WireGuard endpoint finder up and running in 5 minutes!
 
 **Option A: Direct Download**
 ```bash
-wget https://raw.githubusercontent.com/yourusername/mikrotik-warp-finder/main/warp-finder.rsc
+wget https://raw.githubusercontent.com/Viktor45/ros-scripts/refs/heads/main/warp-finder/warp-finder.rsc
 ```
 
 **Option B: Clone Repository**
