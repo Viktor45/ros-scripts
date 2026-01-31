@@ -399,13 +399,13 @@ Optimized for Cloudflare WARP, but adaptable for:
    - This FAQ
 
 2. **Search existing issues**
-   - [GitHub Issues](https://github.com/viktor45/ros-scripts/warp-finder/issues)
+   - [GitHub Issues](https://github.com/viktor45/ros-scripts/issues)
 
 3. **Ask the community**
    - [MikroTik Forum](https://forum.mikrotik.com/)
 
 4. **Report bugs**
-   - [New Issue](https://github.com/viktor45/ros-scripts/warp-finder/issues/new)
+   - [New Issue](https://github.com/viktor45/ros-scripts/issues/new)
 
 ### How do I contribute?
 
@@ -427,8 +427,7 @@ Yes! See [CHANGELOG.md](CHANGELOG.md) for version history.
 
 Can't find your answer? 
 
-📝 [Open a Discussion](https://github.com/viktor45/ros-scripts/warp-finder/discussions/new)  
-🐛 [Report an Issue](https://github.com/viktor45/ros-scripts/warp-finder/issues/new)  
+🐛 [Report an Issue](https://github.com/viktor45/ros-scripts/issues/new)  
 📧 [Contact Maintainers](mailto:support@example.com)
 
 ---

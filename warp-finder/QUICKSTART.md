@@ -21,7 +21,7 @@ wget https://raw.githubusercontent.com/Viktor45/ros-scripts/refs/heads/main/warp
 
 **Option B: Clone Repository**
 ```bash
-git clone https://github.com/viktor45/ros-scripts/warp-finder.git
+git clone https://github.com/viktor45/ros-scripts.git
 ```
 
 ### Step 2: Upload to Router (1 minute)
@@ -115,7 +115,7 @@ Run every 6 hours:
 ## Get Help
 
 📖 [Full Documentation](README.md)  
-🐛 [Report Issue](https://github.com/viktor45/ros-scripts/warp-finder/issues)  
+🐛 [Report Issue](https://github.com/viktor45/ros-scripts/issues)  
 
 ---
 
