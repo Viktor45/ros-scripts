@@ -4,6 +4,44 @@ English version: [README.md](README.md) | Русская версия: [README_r
 
 Automatically update Cloudflare DNS records when your MikroTik router's public IP address changes. Supports both IPv4 and IPv6.
 
+<!-- TOC -->
+* [MikroTik Cloudflare DDNS Script](#mikrotik-cloudflare-ddns-script)
+  * [Features](#features)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+    * [Step 1: Enable IP Cloud](#step-1-enable-ip-cloud)
+    * [Step 2: Get Cloudflare API Credentials](#step-2-get-cloudflare-api-credentials)
+    * [Step 3: Get Zone ID and Record ID](#step-3-get-zone-id-and-record-id)
+      * [Get Zone ID:](#get-zone-id)
+      * [Get Record ID:](#get-record-id)
+    * [Step 4: Configure the Script](#step-4-configure-the-script)
+    * [Step 5: Add Script to MikroTik](#step-5-add-script-to-mikrotik)
+    * [Step 6: Create Scheduler](#step-6-create-scheduler)
+  * [Configuration Examples](#configuration-examples)
+    * [IPv4 Only](#ipv4-only)
+    * [IPv6 Only](#ipv6-only)
+    * [Multiple Domains (IPv4 and IPv6)](#multiple-domains-ipv4-and-ipv6)
+    * [Same Domain - Dual Stack (A + AAAA records)](#same-domain---dual-stack-a--aaaa-records)
+  * [Verification](#verification)
+    * [Check Script Logs](#check-script-logs)
+    * [Manual Test Run](#manual-test-run)
+    * [Check Global Variables](#check-global-variables)
+  * [Troubleshooting](#troubleshooting)
+    * [Script Not Running](#script-not-running)
+    * [API Errors](#api-errors)
+    * [IPv6 Not Working](#ipv6-not-working)
+    * [No Updates Happening](#no-updates-happening)
+  * [Security Notes](#security-notes)
+  * [Customization](#customization)
+    * [Change Update Interval](#change-update-interval)
+    * [Change TTL](#change-ttl)
+    * [Disable Rate Limiting Delay](#disable-rate-limiting-delay)
+  * [Uninstallation](#uninstallation)
+  * [License](#license)
+  * [Contributing](#contributing)
+  * [Credits](#credits)
+<!-- TOC -->
+
 ## Features
 
 - ✅ IPv4 and IPv6 support

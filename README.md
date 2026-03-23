@@ -11,23 +11,37 @@ A collection of useful scripts for MikroTik RouterOS.
 
 ## 📚 Table of Contents
 
-- [Scripts](#-scripts)
-- [Requirements](#-requirements)
-- [Installation](#-installation)
-- [Contributing](#-contributing)
-- [License](#-license)
-
+<!-- TOC -->
+* [🛠️ ros-scripts](#-ros-scripts)
+  * [📚 Table of Contents](#-table-of-contents)
+  * [📦 Scripts](#-scripts)
+    * [🔍 anomalyze](#-anomalyze)
+    * [🌐 asn-to-address-list](#-asn-to-address-list)
+    * [☁️ cloudflare-ddns](#-cloudflare-ddns)
+    * [🔄 resolve-address-lists](#-resolve-address-lists)
+    * [📡 warp-finder](#-warp-finder)
+  * [📋 Requirements](#-requirements)
+  * [🚀 Installation](#-installation)
+    * [Method 1: Via WebFig/WinBox (Recommended)](#method-1-via-webfigwinbox-recommended)
+    * [Method 2: Via Terminal/SSH](#method-2-via-terminalssh)
+    * [Method 3: File Upload](#method-3-file-upload)
+  * [🤝 Contributing](#-contributing)
+    * [How to Contribute](#how-to-contribute)
+  * [📄 License](#-license)
+  * [⚠️ Disclaimer](#-disclaimer)
+  * [🔗 Useful Links](#-useful-links)
+<!-- TOC -->
 ---
 
 ## 📦 Scripts
 
-| Script                                              | Description                                         | Min. ROS Version |
-|-----------------------------------------------------|-----------------------------------------------------|------------------|
-| [**anomalyze**](#anomalyze)                         | Anomaly detection and blocking                      | 7.20+            |
-| [**asn-to-address-list**](#asn-to-address-list)     | Auto-update address lists by ASN                    | 7.10+            |
-| [**cloudflare-ddns**](#cloudflare-ddns)             | Dynamic Cloudflare DNS updates                      | 7.20+            |
-| [**resolve-address-lists**](#resolve-address-lists) | DNS resolution of IP addresses in comments          | 7.20+            |
-| [**warp-finder**](#warp-finder)                     | Auto-discovery of working Cloudflare WARP endpoints | 7.20+            |
+| Script                                               | Description                                         | Min. ROS Version |
+|------------------------------------------------------|-----------------------------------------------------|------------------|
+| [**anomalyze**](./anomalyze)                         | Anomaly detection and blocking                      | 7.20+            |
+| [**asn-to-address-list**](./asn-to-address-list)     | Auto-update address lists by ASN                    | 7.10+            |
+| [**cloudflare-ddns**](./cloudflare-ddns)             | Dynamic Cloudflare DNS updates                      | 7.20+            |
+| [**resolve-address-lists**](./resolve-address-lists) | DNS resolution of IP addresses in comments          | 7.20+            |
+| [**warp-finder**](./warp-finder)                     | Auto-discovery of working Cloudflare WARP endpoints | 7.20+            |
 
 ---
 
@@ -329,10 +343,6 @@ Scripts are provided "as is" without any warranties. Use at your own risk. Testi
 
 ---
 
-<div align="center">
-
 **Made with ❤️ for the MikroTik community**
 
 [GitHub Issues](https://github.com/viktor45/ros-scripts/issues) • [Pull Requests](https://github.com/viktor45/ros-scripts/pulls)
-
-</div>
