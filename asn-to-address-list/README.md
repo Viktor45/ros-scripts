@@ -1,14 +1,21 @@
 # MikroTik ASN Prefix Updater
 
-A robust RouterOS script that automatically fetches and updates firewall address lists with IPv4/IPv6 prefixes for any Autonomous System Number (ASN). Perfect for blocking, routing, or monitoring traffic from specific networks.
+A robust RouterOS script suite that automatically fetches and updates firewall address lists with IPv4/IPv6 prefixes for any Autonomous System Number (ASN). Perfect for blocking, routing, or monitoring traffic from specific networks.
+
+## Scripts Included
+
+- **update-asn-prefixes.rsc** - Main script for fetching and updating ASN prefixes
+- **update-asn-cleaner.rsc** - Utility script for removing ASN entries from address lists
+- **update-asn-runner-example.rsc** - Example wrapper script for batch updates (hosting providers)
 
 ## Features
 
 - ✅ **Automatic Updates** - Fetches latest prefix lists from [ipverse/as-ip-blocks](https://github.com/ipverse/as-ip-blocks)
 - 🌐 **IPv4 & IPv6 Support** - Handle both protocol versions
+- 🔢 **Multiple ASNs** - Process multiple ASNs in a single run (comma-separated)
 - 🔄 **Smart Refresh** - Removes old entries before adding new ones
-- 💾 **Configurable Storage** - Use USB, disk, or internal storage for temp files
-- 📝 **Clean Logging** - Minimal, informative output
+- 💾 **Configurable Storage** - Use USB, disk, or RAM disk (tmpfs) for temp files
+- 📝 **Clean Logging** - Minimal, informative output with per-ASN progress
 - ⚡ **Fast & Reliable** - Optimized for RouterOS 7.10+
 
 ## Requirements
@@ -19,11 +26,26 @@ A robust RouterOS script that automatically fetches and updates firewall address
 
 ## Installation
 
-1. **Create the script** in System > Scripts
-   - Name: `update-asn-prefixes`
-   - Copy the entire script content from `update-asn-prefixes.rsc`
+### Main Script
 
-2. **Set up temporary storage** (choose one option):
+1. **Create the main script** in System > Scripts
+   - Name: `update-asn-prefixes`
+   - Copy the entire script content from [update-asn-prefixes.rsc](./update-asn-prefixes.rsc)
+
+### Helper Scripts (Optional)
+
+1. **Create the cleaner script** (optional but recommended)
+   - Name: `update-asn-cleaner`
+   - Copy the entire script content from [update-asn-cleaner.rsc](./update-asn-cleaner.rsc)
+
+2. **Create example runner script** (optional - for batch updates)
+   - Name: `update-asn-runner-example`
+   - Copy the entire script content from [update-asn-runner-example.rsc](./update-asn-runner-example.rsc)
+   - Customize the ASN list for your needs
+
+### Storage Setup
+
+1. **Set up temporary storage** (choose one option):
 
    **Option A: Use USB/Disk storage (recommended for scheduled updates)**
    ```routeros
@@ -33,9 +55,9 @@ A robust RouterOS script that automatically fetches and updates firewall address
    ```
 
    **Option B: Use RAM disk (tmpfs) for temporary files**
-   
+
    RAM disk is faster and reduces wear on USB/disk storage, perfect for frequent updates:
-   
+
    ```routeros
    # Create a tmpfs RAM disk (substitute with your available RAM size)
    /disk add slot=tmpfs type=tmpfs tmpfs-max-size=10M
@@ -47,25 +69,29 @@ A robust RouterOS script that automatically fetches and updates firewall address
    # Use it in your script configuration:
    :global UAPTMPPATH "tmpfs1/"
    ```
-   
+
    **Note:** RAM disk contents are lost on reboot, but temporary files are cleaned up automatically by the script.
 
-3. **Set up global variables** (see Configuration below)
+2. **Set up global variables** (see Configuration below)
 
-4. **Run manually or schedule** (see Usage below)
+3. **Run manually or schedule** (see Usage below)
 
-## Configuration
+---
+
+## Configuration - Main Script (update-asn-prefixes)
 
 The script uses global variables for configuration:
 
 | Variable     | Required | Description                                     | Example                  |
-| ------------ | -------- | ----------------------------------------------- | ------------------------ |
+|--------------|----------|-------------------------------------------------|--------------------------|
 | `UAPASN`     | ✅ Yes    | ASN number (with or without "AS" prefix)        | `"13335"` or `"AS13335"` |
 | `UAPLIST`    | ✅ Yes    | Name of the firewall address list               | `"cloudflare-ips"`       |
 | `UAPTYPE`    | ❌ No     | IP version: `"v4"` or `"v6"` (default: `"v4"`)  | `"v4"`                   |
 | `UAPTMPPATH` | ❌ No     | Temp file storage path (default: `"usb1/tmp/"`) | `"disk1/tmp/"`           |
 
 ## Usage
+
+### Main Script - Basic Examples
 
 ### Basic IPv4 Example
 
@@ -102,6 +128,97 @@ The script uses global variables for configuration:
 /system script run update-asn-prefixes
 ```
 
+### Multiple ASNs (New in v2.0)
+
+**Process multiple ASNs in a single run:**
+```routeros
+:global UAPASN "174,8560,13335"
+:global UAPLIST "multiple-providers"
+/system script run update-asn-prefixes
+```
+
+**With spaces (also supported):**
+```routeros
+:global UAPASN "13335, 16509, 15169"
+:global UAPLIST "major-cdn-networks"
+/system script run update-asn-prefixes
+```
+
+**Mixed format (AS prefix optional):**
+```routeros
+:global UAPASN "AS174,8560,AS13335"
+:global UAPLIST "transit-providers"
+/system script run update-asn-prefixes
+```
+
+---
+
+### Cleaner Script - Usage Examples
+
+**Clean specific ASN from specific list:**
+```routeros
+:global UAPASN "13335"
+:global UAPLIST "cloudflare-ips"
+/system script run update-asn-cleaner
+```
+
+**Clean multiple ASNs from specific list:**
+```routeros
+:global UAPASN "174,8560,13335"
+:global UAPLIST "hosters"
+/system script run update-asn-cleaner
+```
+
+**Clean specific ASN(s) from ALL lists:**
+```routeros
+:global UAPASN "13335,16509"
+# Don't set UAPLIST
+/system script run update-asn-cleaner
+```
+
+**Clean ALL ASN entries from specific list:**
+```routeros
+# Don't set UAPASN
+:global UAPLIST "hosters"
+/system script run update-asn-cleaner
+```
+
+**Clean ALL ASN entries from ALL lists:**
+```routeros
+# Don't set either variable
+/system script run update-asn-cleaner
+```
+
+---
+
+### Runner Script - Batch Updates
+
+The example runner script (`update-asn-runner-example.rsc`) demonstrates batch updates for hosting providers:
+
+**Run the example (updates 47 hosting provider ASNs):**
+```routeros
+/system script run update-asn-runner-example
+```
+
+**Customize for your needs:**
+Edit the script and change the ASN list:
+```routeros
+# Example: Update only major CDN providers
+:local hosterASNs "13335,16509,15169"
+```
+
+**Schedule batch updates:**
+```routeros
+/system scheduler add \
+    name=update-hosters-daily \
+    start-time=02:00:00 \
+    interval=1d \
+    on-event="/system script run update-asn-runner-example" \
+    comment="Daily hosting provider IP update"
+```
+
+---
+
 ### Scheduled Updates
 
 Update Cloudflare IPs daily at 3 AM:
@@ -125,6 +242,8 @@ Update Cloudflare IPs daily at 3 AM:
     on-event=":global UAPASN \"13335\"; :global UAPLIST \"cloudflare-v4\"; /system script run update-asn-prefixes" \
     comment="Daily Cloudflare IPv4 update"
 ```
+
+---
 
 ## Use Cases
 
@@ -162,19 +281,28 @@ Update Cloudflare IPs daily at 3 AM:
 
 ### Monitor Traffic to CDN Networks
 
+**Using multiple ASNs in single list (recommended):**
 ```routeros
-# Update lists for multiple CDNs
-:global UAPASN "13335"; :global UAPLIST "cdn-cloudflare"; /system script run update-asn-prefixes
-:global UAPASN "16509"; :global UAPLIST "cdn-amazon"; /system script run update-asn-prefixes
-:global UAPASN "15169"; :global UAPLIST "cdn-google"; /system script run update-asn-prefixes
+# Update all CDN networks at once
+:global UAPASN "13335,16509,15169"
+:global UAPLIST "cdn-networks"
+/system script run update-asn-prefixes
 
-# Add mangle rules for traffic marking
+# Add mangle rule for traffic marking
 /ip firewall mangle add \
     chain=forward \
-    dst-address-list=cdn-cloudflare \
+    dst-address-list=cdn-networks \
     action=mark-connection \
     new-connection-mark=cdn-traffic \
     comment="Mark CDN traffic"
+```
+
+**Or using separate lists:**
+```routeros
+# Update lists for individual CDNs
+:global UAPASN "13335"; :global UAPLIST "cdn-cloudflare"; /system script run update-asn-prefixes
+:global UAPASN "16509"; :global UAPLIST "cdn-amazon"; /system script run update-asn-prefixes
+:global UAPASN "15169"; :global UAPLIST "cdn-google"; /system script run update-asn-prefixes
 ```
 
 ### Prioritize Traffic for Specific Networks
@@ -201,10 +329,96 @@ Update Cloudflare IPs daily at 3 AM:
     comment="Priority queue for marked traffic"
 ```
 
+---
+
+## Complete Workflow Examples
+
+### Example 1: Manage Hosting Provider IPs
+
+**Step 1 - Initial setup:**
+```routeros
+# Run the example script to populate the list
+/system script run update-asn-runner-example
+```
+
+**Step 2 - Block hosting providers:**
+```routeros
+/ip firewall filter add \
+    chain=input \
+    src-address-list=hosters \
+    action=drop \
+    comment="Block hosting providers"
+```
+
+**Step 3 - Schedule weekly updates:**
+```routeros
+/system scheduler add \
+    name=update-hosters-weekly \
+    start-time=03:00:00 \
+    interval=7d \
+    on-event="/system script run update-asn-runner-example"
+```
+
+**Step 4 - Clean up when needed:**
+```routeros
+# Remove specific ASN
+:global UAPASN "13335"
+:global UAPLIST "hosters"
+/system script run update-asn-cleaner
+
+# Or remove all hosters
+:global UAPLIST "hosters"
+/system script run update-asn-cleaner
+```
+
+### Example 2: Rotate ASN Lists
+
+**Replace old ASNs with new ones:**
+```routeros
+# Clean old list
+:global UAPLIST "cdn-networks"
+/system script run update-asn-cleaner
+
+# Update with new ASNs
+:global UAPASN "13335,16509,15169"
+:global UAPLIST "cdn-networks"
+/system script run update-asn-prefixes
+```
+
+### Example 3: Temporary ASN Blocking
+
+**Add temporary block:**
+```routeros
+# Add ASN to block list
+:global UAPASN "12345"
+:global UAPLIST "temp-block"
+/system script run update-asn-prefixes
+
+# Create firewall rule
+/ip firewall filter add \
+    chain=input \
+    src-address-list=temp-block \
+    action=drop \
+    comment="Temporary block"
+```
+
+**Remove when done:**
+```routeros
+# Clean the ASN
+:global UAPASN "12345"
+:global UAPLIST "temp-block"
+/system script run update-asn-cleaner
+
+# Remove firewall rule
+/ip firewall filter remove [find comment="Temporary block"]
+```
+
+---
+
 ## Popular ASN Numbers
 
 | Company       | ASN   | Description                        |
-| ------------- | ----- | ---------------------------------- |
+|---------------|-------|------------------------------------|
 | Cloudflare    | 13335 | CDN and security services          |
 | Google        | 15169 | Google services and infrastructure |
 | Amazon        | 16509 | AWS and Amazon services            |
@@ -217,9 +431,41 @@ Find more ASNs at [bgp.he.net](https://bgp.he.net/)
 
 ## Output Example
 
+**Single ASN:**
 ```
-update-asn-prefixes: SUCCESS - Added 777 v4 prefixes for ASN AS13335
+update-asn-prefixes: Processing 1 ASN(s)
+update-asn-prefixes: AS13335 - Added 777 v4 prefixes
+update-asn-prefixes: SUCCESS - Total 777 v4 prefixes added for 1 ASN(s)
 ```
+
+**Multiple ASNs:**
+```
+update-asn-prefixes: Processing 3 ASN(s)
+update-asn-prefixes: AS13335 - Added 777 v4 prefixes
+update-asn-prefixes: AS16509 - Added 1234 v4 prefixes
+update-asn-prefixes: AS15169 - Added 892 v4 prefixes
+update-asn-prefixes: SUCCESS - Total 2903 v4 prefixes added for 3 ASN(s)
+```
+
+**Cleaner output:**
+```
+clean-asns: Removing entries for 1 ASN(s)
+clean-asns: AS13335 - Removed 777 entries
+clean-asns: SUCCESS - Removed 777 total entries
+```
+
+**Runner output:**
+```
+update-hoster-asns: Starting update for hosting providers
+update-asn-prefixes: Processing 47 ASN(s)
+update-asn-prefixes: AS174 - Added 234 v4 prefixes
+update-asn-prefixes: AS8560 - Added 156 v4 prefixes
+[... continues for all 47 ASNs ...]
+update-asn-prefixes: SUCCESS - Total 12543 v4 prefixes added for 47 ASN(s)
+update-hoster-asns: Update completed
+```
+
+---
 
 ## Troubleshooting
 
@@ -241,6 +487,19 @@ update-asn-prefixes: SUCCESS - Added 777 v4 prefixes for ASN AS13335
 - **Use RAM disk**: Create tmpfs for reliable temporary storage: `/disk add slot=tmpfs type=tmpfs tmpfs-max-size=10M`
 - **Create directory**: `/file print` to verify the path exists
 - **Check disk space**: Ensure sufficient space is available on your storage device
+
+### Cleaner Script Issues
+
+**"No entries found" for existing ASN:**
+- **Verify comment format**: Check if entries have "ASN AS####" comment format
+- **Check list name**: Ensure `UAPLIST` matches the list containing the entries
+- **View existing entries**: `/ip firewall address-list print where comment~"ASN"`
+
+**Accidental deletion:**
+- The cleaner script doesn't ask for confirmation - be careful!
+- Always verify with `UAPASN` set first before running without it
+
+---
 
 ## Advanced Configuration
 
@@ -277,6 +536,18 @@ For routers with sufficient RAM, using tmpfs provides faster file operations and
 
 ### Multiple ASNs in One List
 
+**Now built-in! Simply use comma-separated ASNs:**
+
+```routeros
+# Single command for multiple ASNs
+:global UAPASN "13335,16509,15169"
+:global UAPLIST "cdn-networks"
+/system script run update-asn-prefixes
+```
+
+Each ASN will have its own comment tag (e.g., "ASN AS13335", "ASN AS16509"), allowing you to remove individual ASNs later if needed.
+
+**Legacy method (still works):**
 ```routeros
 # Create a wrapper script
 :global UAPLIST "cdn-networks"
@@ -297,6 +568,42 @@ For routers with sufficient RAM, using tmpfs provides faster file operations and
 /file remove [find name~"^asn-.*\\.txt\$"]
 ```
 
+### View Current ASN Entries
+
+**List all ASN entries:**
+```routeros
+/ip firewall address-list print where comment~"^ASN AS"
+```
+
+**Count entries per ASN:**
+```routeros
+# IPv4
+:foreach entry in=[/ip firewall address-list find comment~"^ASN AS"] do={
+    :local comment [/ip firewall address-list get $entry comment]
+    :put $comment
+}
+
+# IPv6
+:foreach entry in=[/ipv6 firewall address-list find comment~"^ASN AS"] do={
+    :local comment [/ipv6 firewall address-list get $entry comment]
+    :put $comment
+}
+```
+
+### Emergency Cleanup
+
+**Remove ALL ASN entries immediately:**
+```routeros
+/system script run update-asn-cleaner
+```
+
+**Remove all temp files:**
+```routeros
+/file remove [find name~"asn-"]
+```
+
+---
+
 ## License
 
 MIT License - Feel free to use and modify
@@ -311,6 +618,15 @@ MIT License - Feel free to use and modify
 Issues, improvements, and pull requests are welcome!
 
 ## Changelog
+
+### Version 2.0.1 (2026-01-18)
+- **Main script**: Added support for multiple ASNs in single run (comma-separated)
+- **Main script**: Enhanced logging with per-ASN progress tracking
+- **Main script**: Added rate limiting delay between ASN processing
+- **Main script**: Improved error handling for invalid ASNs
+- **Main script**: Each ASN gets individual comment tag for easy management
+- **New**: Added cleaner script (update-asn-cleaner.rsc)
+- **New**: Added example runner script (update-asn-runner-example.rsc)
 
 ### Version 1.4.0 (2026-01-18)
 - Added IPv6 support via `UAPTYPE` variable
