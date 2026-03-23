@@ -1,5 +1,7 @@
 # MikroTik ASN Prefix Updater
 
+English version: [README.md](README.md) | Русская версия: [README_ru.md](README_ru.md)
+
 A robust RouterOS script suite that automatically fetches and updates firewall address lists with IPv4/IPv6 prefixes for any Autonomous System Number (ASN). Perfect for blocking, routing, or monitoring traffic from specific networks.
 
 ## Scripts Included

@@ -1,7 +1,9 @@
 # 🛡️ MikroTik Connection Anomaly Detection & Blocking Script
 
+English version: [README.md](README.md) | Русская версия: [README_ru.md](README_ru.md)
+
 [![MikroTik](https://img.shields.io/badge/MikroTik-RouterOS%207.20+-blue.svg)](https://mikrotik.com)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](../LICENSE)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/viktor45/mikrotik-connection-monitor/graphs/commit-activity)
 [![Status](https://img.shields.io/badge/status-experimental-orange.svg)](https://github.com/viktor45/mikrotik-connection-monitor)
 
@@ -365,7 +367,7 @@ Check how many IPs are currently blocked:
 ### Resource Impact
 
 | Connections | Loop Delay | CPU Impact            |
-| ----------- | ---------- | --------------------- |
+|-------------|------------|-----------------------|
 | < 1000      | 2s         | Minimal (~1-2%)       |
 | 1000-5000   | 3s         | Low (~3-5%)           |
 | 5000-10000  | 5s         | Moderate (~5-10%)     |
@@ -408,7 +410,7 @@ Please include:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 

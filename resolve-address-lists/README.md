@@ -1,5 +1,7 @@
 # 🔄 MikroTik DNS Resolution Script
 
+English version: [README.md](README.md) | Русская версия: [README_ru.md](README_ru.md)
+
 A powerful and flexible RouterOS script that automatically resolves IPv4 and IPv6 addresses in firewall address lists and stores the resolved hostnames in comments for easy identification and tracking.
 
 ## 📋 Table of Contents

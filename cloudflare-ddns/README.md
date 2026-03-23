@@ -1,5 +1,7 @@
 # MikroTik Cloudflare DDNS Script
 
+English version: [README.md](README.md) | Русская версия: [README_ru.md](README_ru.md)
+
 Automatically update Cloudflare DNS records when your MikroTik router's public IP address changes. Supports both IPv4 and IPv6.
 
 ## Features
