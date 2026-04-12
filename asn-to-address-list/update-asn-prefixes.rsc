@@ -117,7 +117,20 @@
             :delay 2s
 
             # Read and process
-            :local content [/file get $tempFile contents]
+            :local fsize [/file get $tempFile size]
+            :local max 32768
+            :local chunks (($fsize / $max) - 1)
+            :if ($fsize > ($max * $chunks)) do={
+                :set $chunks ($chunks + 1)
+            }
+
+            :local content
+            :for i from=0 to=$chunks do={
+            # Start each read from the next chunk
+            :local offset ($i * $max)
+            :local filechunk [/file/read file=$tempFile offset=$offset chunk-size=$max as-value]
+            :set $content ($content . ($filechunk->"data"))
+            }
 
             # Parse lines manually
             :local lines [:toarray ""]
