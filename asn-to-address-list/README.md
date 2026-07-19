@@ -138,10 +138,10 @@ The script uses global variables for configuration:
 
 | Variable     | Required | Description                                     | Example                  |
 |--------------|----------|-------------------------------------------------|--------------------------|
-| `UAPASN`     | ✅ Yes    | ASN number (with or without "AS" prefix)        | `"13335"` or `"AS13335"` |
-| `UAPLIST`    | ✅ Yes    | Name of the firewall address list               | `"cloudflare-ips"`       |
-| `UAPTYPE`    | ❌ No     | IP version: `"v4"` or `"v6"` (default: `"v4"`)  | `"v4"`                   |
-| `UAPTMPPATH` | ❌ No     | Temp file storage path (default: `"usb1/tmp/"`) | `"disk1/tmp/"`           |
+| `UAPASN`     | ✅ Yes   | ASN number (with or without "AS" prefix)        | `"13335"` or `"AS13335"` |
+| `UAPLIST`    | ✅ Yes   | Name of the firewall address list               | `"cloudflare-ips"`       |
+| `UAPTYPE`    | ❌ No    | IP version: `"v4"` or `"v6"` (default: `"v4"`)  | `"v4"`                   |
+| `UAPTMPPATH` | ❌ No    | Temp file storage path (default: `"usb1/tmp/"`) | `"disk1/tmp/"`           |
 
 ## Usage
 

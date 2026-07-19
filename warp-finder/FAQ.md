@@ -362,8 +362,8 @@ No. The script runs entirely on your router with no external communication excep
 
 ### RouterOS Versions
 
-| Version    | Status                         |
-| ---------- | ------------------------------ |
+| Version    | Status                          |
+|------------|---------------------------------|
 | 6.x        | ❌ Not supported (no WireGuard) |
 | 7.0-7.19   | ⚠️ May work (untested)          |
 | 7.20+      | ✅ Fully supported              |
